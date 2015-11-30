@@ -6,29 +6,20 @@ import java.io.StringReader;
 import java.io.InputStreamReader;
 import java.io.InputStream;
 
-public class Scanner implements Scannable {
-
+public class SQLScanner extends BufferScanner {
 	
-	public static void main(String[] args) throws Exception {
-		Scanner s = new Scanner("hello world =");
-		System.out.println(s.nextToken());
-		System.out.println(s.nextToken());
-		System.out.println(s.nextToken());
-
-	}
-	
-	private String[] operands = {"=", "+", "//", "!", "==", "!="};
-	private BufferedReader in;
+	private String[] sqlOperands = {"=", "+", "//", "!", "==", "!=", "<>", "<", ">"};
 	private char currentChar;
 	private boolean eof;
 	
-	public Scanner(InputStream inStream){
-		setInput(inStream);
+	
+	public SQLScanner(InputStream inStream){
+		super(inStream);
 	}
 	
 	
-	public Scanner(String inString){
-		setInput(inString);
+	public SQLScanner(String inString){
+		super(inString);
 	}
 	
 	
@@ -46,6 +37,10 @@ public class Scanner implements Scannable {
 	}
 	
 	
+	/**
+	 * Read in and set current char to next char from buffered reader
+	 * If no next char, set eof to true
+	 */
 	private void shift() {
 		try {
 			int readChar = in.read();
@@ -60,7 +55,6 @@ public class Scanner implements Scannable {
 	}
 	
 	
-	
 	/**
 	 * @return whether reached end of file or not
 	 */
@@ -69,7 +63,6 @@ public class Scanner implements Scannable {
 	}
 	
 	/**
-	 * Return if char is digit
 	 * @param c
 	 * @return
 	 */
@@ -78,7 +71,6 @@ public class Scanner implements Scannable {
 	}
 	
 	/**
-	 * Return if char is letter
 	 * @param c
 	 * @return 
 	 */
@@ -87,7 +79,7 @@ public class Scanner implements Scannable {
     }
 	
 	/**
-	 * Return if char is whitespace (line break, tab, space...)
+	 * Whitespace is defined as tab, new line and space
 	 * @param c
 	 * @return
 	 */
@@ -96,17 +88,12 @@ public class Scanner implements Scannable {
     }
 	
 	
-	/**
-	 * TODO Create tokenizer interface that should scan for certain tokens
-	 * with given conditions. A special tokenizer should handle default cases
-	 * such as unidentified operands
-	 */
 	
 	/**
 	 * Generates next token input sequence as a string
 	 * Does not include whitespace.
-	 * All tokenizers should leave currentChar on char
-	 * after the token (not the last char in the token).
+	 * Tokenizer leaves currentChar on char
+	 * after the token (not the last char in the most recent token).
 	 * @return
 	 * @throws IOException
 	 */
@@ -188,9 +175,11 @@ public class Scanner implements Scannable {
 	 * @return
 	 */
 	private boolean isOperand(String operand) {
-		for (int i = 0; i < operands.length; i++)
-			if(operand.equals(operands[i]))
+		for (int i = 0; i < sqlOperands.length; i++)
+			if(operand.equals(sqlOperands[i]))
 				return true;
 		return false;
 	}
+
+
 }

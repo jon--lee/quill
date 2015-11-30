@@ -8,5 +8,4 @@ public interface Scannable {
 	 */
 	String nextToken() throws IOException;
 	
-	
 }

@@ -1,17 +1,32 @@
 package quill;
-import scanner.Scanner;
+
+import scanner.SQLScanner;
+import scanner.Scannable;
+import ast.Program;
 import ast.Statement;
+
 public class Parser {
 	
-	private Scanner sqlScanner;
+	private SQLScanner sqlScanner;
 	
 	public static void main(String[] args){
-		
+		SQLScanner s = new SQLScanner("select * from world;");
+		new Parser(s);
 	}
 
-	public Parser(Scanner scanner){
+	public Parser(SQLScanner scanner){
 		this.sqlScanner = scanner;
-		parseStatement();
+		Program program = parseProgram();
+		program.execute();
+	}
+	
+	public Program parseProgram(){
+		Program program = new Program();
+		while(!sqlScanner.isEndOfFile()){
+			Statement stmt = parseStatement();
+			program.append(stmt);
+		}
+		return program;
 	}
 	
 	public Statement parseStatement(){
@@ -25,9 +40,5 @@ public class Parser {
 	public Statement parseAssigment(){
 		return null;
 	}
-	
-	/**
-	 * 
-	 */
 	
 }
