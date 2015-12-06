@@ -1,7 +1,7 @@
 package ast;
 
-public class Select implements Statement{
-	public void execute(){
+public class Select implements Expression {
+	public Eval evaluate(){
 		
 	}
 }

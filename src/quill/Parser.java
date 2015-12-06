@@ -37,7 +37,11 @@ public class Parser {
 	 * assignment defined as "<value> as <name>"
 	 * @return
 	 */
-	public Statement parseAssigment(){
+	public Statement parseCreate(){
+		return null;
+	}
+	
+	public Statement parseSelect(){
 		return null;
 	}
 	
